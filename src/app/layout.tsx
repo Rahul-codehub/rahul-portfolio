@@ -32,7 +32,7 @@ export const metadata: Metadata = {
         description:
             "AI Engineer, LLM Developer, Full Stack Developer",
 
-        url: "https://your-domain.vercel.app",
+        url: "https://rahul-portfolio-sll1.vercel.app",
 
         siteName: "Rahul Kumar Portfolio",
 
@@ -68,15 +68,15 @@ export default function RootLayout({
         "@context": "https://schema.org",
         "@type": "Person",
         name: "Rahul Kumar",
-        url: "https://your-domain.vercel.app",
-        image: "https://your-domain.vercel.app/og-image.png",
+        url: "https://rahul-portfolio-sll1.vercel.app",
+        image: "https://rahul-portfolio-sll1.vercel.app/og-image.png",
         jobTitle: "AI Engineer",
         description:
             "AI Engineer, LLM Developer, Full Stack Developer",
 
         sameAs: [
             "https://github.com/Rahul-codehub",
-            "https://www.linkedin.com/in/YOUR-LINKEDIN-USERNAME",
+            "https://www.linkedin.com/in/rahul-kumar75",
         ],
 
         knowsAbout: [
