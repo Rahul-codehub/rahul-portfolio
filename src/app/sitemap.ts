@@ -4,7 +4,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     return [
         {
-            url: "https://your-domain.vercel.app",
+            url: "https://rahul-portfolio-sll1.vercel.app",
             lastModified: new Date(),
             priority: 1,
         },

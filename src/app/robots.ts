@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
             allow: "/",
         },
         sitemap:
-            "https://rahul-portfolio.vercel.app/sitemap.xml",
+            "https://rahul-portfolio-sll1.vercel.app/sitemap.xml",
     };
 }
