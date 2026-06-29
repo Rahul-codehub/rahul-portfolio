@@ -15,6 +15,7 @@ import Stats from "@/sections/Stats";
 import Skills from "@/sections/Skills";
 import Projects from "@/sections/Projects";
 import Experience from "@/sections/Experience";
+import Achievements from "@/sections/Achievements";
 import Certifications from "@/sections/Certification";
 import Contact from "@/sections/Contact";
 import BackToTop from "@/components/BackToTop";
@@ -85,23 +86,15 @@ export default function Home() {
       <Navbar />
 
       <Hero />
-
       <About />
-
       <Stats />
-
       <Skills />
-
       <Projects />
-
       <Experience />
-
+      <Achievements />
       <Certifications />
-
       <Contact />
-
       <Footer />
-
       <Chatbot />
       <BackToTop />
     </main>

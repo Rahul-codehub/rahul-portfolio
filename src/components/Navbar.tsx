@@ -12,6 +12,7 @@ const navLinks = [
     { name: "Projects", href: "#projects" },
     // { name: "GitHub", href: "#github" },
     { name: "Experience", href: "#experience" },
+    { name: "Achievements", href: "#achievements" },
     { name: "Certifications", href: "#certifications" },
     { name: "Contact", href: "#contact" },
 ];
@@ -23,29 +24,28 @@ const Navbar = () => {
     const [active, setActive] = useState("");
 
     useEffect(() => {
-
         const handleScroll = () => {
+            const scrollPosition = window.scrollY + 180;
 
-            const sections = navLinks.map(
-                (link) => link.href.substring(1)
-            );
+            let currentSection = "";
 
-            for (const section of sections) {
+            navLinks.forEach((link) => {
+                const section = document.querySelector(link.href);
 
-                const element = document.getElementById(section);
-
-                if (element) {
-
-                    const rect = element.getBoundingClientRect();
+                if (section) {
+                    const top = (section as HTMLElement).offsetTop;
+                    const height = (section as HTMLElement).offsetHeight;
 
                     if (
-                        rect.top <= 150 &&
-                        rect.bottom >= 150
+                        scrollPosition >= top &&
+                        scrollPosition < top + height
                     ) {
-                        setActive(section);
+                        currentSection = link.href.substring(1);
                     }
                 }
-            }
+            });
+
+            setActive(currentSection);
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -53,11 +53,7 @@ const Navbar = () => {
         handleScroll();
 
         return () =>
-            window.removeEventListener(
-                "scroll",
-                handleScroll
-            );
-
+            window.removeEventListener("scroll", handleScroll);
     }, []);
 
     return (
@@ -87,11 +83,10 @@ const Navbar = () => {
                                 href={link.href}
                                 className={`
                                 transition-all duration-300
-                                ${
-                                    isActive
+                                ${isActive
                                         ? "text-blue-400"
                                         : "text-gray-300 hover:text-white"
-                                }
+                                    }
                                 `}
                             >
                                 {link.name}
@@ -146,11 +141,10 @@ const Navbar = () => {
                                         }
                                         className={`
                                         text-lg transition-all duration-300
-                                        ${
-                                            isActive
+                                        ${isActive
                                                 ? "text-blue-400"
                                                 : "text-gray-300 hover:text-white"
-                                        }
+                                            }
                                         `}
                                     >
                                         {link.name}

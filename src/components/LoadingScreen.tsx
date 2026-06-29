@@ -53,7 +53,7 @@ const LoadingScreen = () => {
                 }}
                 className="text-gray-400"
             >
-                AI Engineer • LLM Developer
+                AI Engineer • LLM Developer • Full Stack Developer
             </motion.p>
 
             <motion.div

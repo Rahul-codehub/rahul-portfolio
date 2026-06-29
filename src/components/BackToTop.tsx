@@ -53,13 +53,13 @@ const BackToTop = () => {
             onClick={scrollToTop}
             className={`
                 fixed
-bottom-8
+bottom-2
 left-1/2
 -translate-x-1/2
 z-50
 
-w-14
-h-14
+w-10
+h-10
 
 rounded-full
 glass

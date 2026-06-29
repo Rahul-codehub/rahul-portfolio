@@ -4,63 +4,133 @@ import { useEffect, useRef, useState } from "react";
 
 import { FaRobot, FaTimes } from "react-icons/fa";
 
+import ReactMarkdown from "react-markdown";
+
+import remarkGfm from "remark-gfm";
+
+type ChatMessage = {
+    role: "user" | "assistant";
+    content: string;
+};
+
 const Chatbot = () => {
 
     const [open, setOpen] = useState(false);
 
+
+
     const [message, setMessage] = useState("");
+
+    const [loading, setLoading] = useState(false);
 
     const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
-    const [messages, setMessages] = useState([
+    const inputRef = useRef<HTMLInputElement | null>(null);
+
+    const [messages, setMessages] = useState<ChatMessage[]>([
         {
             role: "assistant",
             content:
-                "Hi, I'm Rahul's AI assistant. Ask me anything about Rahul.",
+                "Hello! I'm Rahul Kumar's personal AI portfolio assistant. I can answer questions about Rahul's background, projects, skills, education, experience, certifications, achievements, and career goals. How can I assist you today?",
         },
     ]);
-
     useEffect(() => {
 
         messagesEndRef.current?.scrollIntoView({
             behavior: "smooth",
         });
 
-    }, [messages]);
+        if (open) {
+           setTimeout(() => {
+    inputRef.current?.focus();
+}, 0);
+            
+        }
+
+    }, [messages, open]);
 
     const sendMessage = async () => {
 
-        if (!message.trim()) return;
 
-        const userMessage = {
+
+        if (!message.trim() || loading) return;
+
+        const userMessage: ChatMessage = {
             role: "user",
-            content: message,
+            content: message.trim(),
         };
 
-        setMessages((prev) => [...prev, userMessage]);
+        const updatedMessages = [
+            ...messages,
+            userMessage,
+        ];
+
+        setMessages(updatedMessages);
 
         setMessage("");
+
+        setLoading(true);
 
         try {
 
             const res = await fetch("/api/chat", {
                 method: "POST",
+
                 headers: {
                     "Content-Type": "application/json",
                 },
+
                 body: JSON.stringify({
-                    message,
+                    messages: updatedMessages.slice(-10),
                 }),
             });
 
-            const data = await res.json();
+            if (!res.ok) {
+                throw new Error("Failed to get AI response.");
+            }
 
-            const botMessage = {
-                role: "assistant",
-                content: data.reply,
-            };
+           const reader = res.body?.getReader();
 
-            setMessages((prev) => [...prev, botMessage]);
+if (!reader) {
+    throw new Error("No response stream.");
+}
+
+const decoder = new TextDecoder();
+
+let fullResponse = "";
+
+setMessages((prev) => [
+    ...prev,
+    {
+        role: "assistant",
+        content: "",
+    },
+]);
+
+while (true) {
+
+    const { done, value } = await reader.read();
+
+    if (done) break;
+
+    const chunk = decoder.decode(value);
+
+    fullResponse += chunk;
+
+    setMessages((prev) => {
+
+        const updated = [...prev];
+
+        updated[updated.length - 1] = {
+            role: "assistant",
+            content: fullResponse,
+        };
+
+        return updated;
+
+    });
+
+}
 
         } catch (error) {
 
@@ -68,22 +138,33 @@ const Chatbot = () => {
                 ...prev,
                 {
                     role: "assistant",
-                    content: "Something went wrong.",
+                    content:
+                        "Sorry, something went wrong. Please try again.",
                 },
             ]);
 
+        } finally {
+
+            setLoading(false);
+            inputRef.current?.focus();
         }
     };
 
+   
+    
+
     return (
         <>
+
             {/* Overlay */}
-            {open && (
-                <div
-                    className="fixed inset-0 bg-black/80 backdrop-blur-md z-40 transition-all duration-300"
-                    onClick={() => setOpen(false)}
-                />
-            )}
+            {
+                open && (
+                    <div
+                        className="fixed inset-0 bg-black/80 backdrop-blur-md z-40 transition-all duration-300"
+                        onClick={() => setOpen(false)}
+                    />
+                )
+            }
 
             {/* Floating Button */}
             <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-[70] flex flex-col items-end gap-3">
@@ -115,10 +196,11 @@ const Chatbot = () => {
             </div>
 
             {/* Chat Window */}
-            {open && (
+            {
+                open && (
 
-                <div
-                    className="
+                    <div
+                        className="
                     fixed
                     inset-x-3
                     bottom-24
@@ -137,59 +219,105 @@ const Chatbot = () => {
                     overflow-hidden
                     shadow-2xl
                     "
-                >
+                    >
 
-                    {/* Header */}
-                    <div className="p-4 md:p-5 border-b border-white/10 bg-white/5 backdrop-blur-md">
+                        {/* Header */}
+                        <div className="p-5 border-b border-white/10 bg-white/5 backdrop-blur-md">
 
-                        <h2 className="text-lg md:text-xl font-semibold gradient-text">
-                            AI Assistant
-                        </h2>
+                            <div className="flex items-center gap-3">
 
-                    </div>
+                                <div className="w-11 h-11 rounded-full bg-blue-500 flex items-center justify-center text-white">
 
-                    {/* Messages */}
-                    <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-4">
+                                    <FaRobot size={20} />
 
-                        {messages.map((msg, index) => (
+                                </div>
 
-                            <div
-                                key={index}
-                                className={`
-                                max-w-[88%]
-                                px-4 py-3
-                                rounded-2xl
-                                text-sm md:text-base
-                                leading-relaxed
-                                break-words
-                                ${msg.role === "user"
-                                        ? "ml-auto bg-blue-500 text-white"
-                                        : "bg-white/10 text-gray-200"}
-                                `}
-                            >
-                                {msg.content}
+                                <div>
+
+                                    <h2 className="text-lg font-semibold gradient-text">
+                                        Rahul's AI Assistant
+                                    </h2>
+
+                                    <div className="flex items-center gap-2 text-xs text-gray-400">
+
+                                        <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+
+                                        Online • Typically replies instantly
+
+                                    </div>
+
+                                </div>
+
                             </div>
 
-                        ))}
+                        </div>
 
-                        <div ref={messagesEndRef} />
+                        {/* Messages */}
+                        <div className="flex-1 overflow-y-auto p-3 md:p-4 space-y-4">
+                           
+                            {messages.map((msg, index) => (
 
-                    </div>
+                                <div
+                                    key={index}
+                                    className="relative group"
+                                >
 
-                    {/* Input Area */}
-                    <div className="p-3 border-t border-white/10 flex gap-2 bg-black/20">
+                                    <div
+                                        className={`
+                                        max-w-[88%]
+                                        px-4
+                                        py-3
+                                        rounded-2xl
+                                        text-sm
+                                        md:text-base
+                                        leading-relaxed
+                                        break-words
+                                        ${msg.role === "user"
+                                                ? "ml-auto bg-blue-500 text-white"
+                                                : "bg-white/10 text-gray-200"
+                                            }
+            `}
+                                    >
 
-                        <input
-                            type="text"
-                            placeholder="Ask something..."
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            onKeyDown={(e) => {
-                                if (e.key === "Enter") {
-                                    sendMessage();
-                                }
-                            }}
-                            className="
+                                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                                            {msg.content}
+                                        </ReactMarkdown>
+
+                                    </div>
+
+
+
+                                </div>
+
+                            ))}
+                            
+                            <div ref={messagesEndRef} />
+
+                        </div>
+
+                        {/* Input Area */}
+                        <div className="p-3 border-t border-white/10 flex gap-2 bg-black/20">
+
+                            <input
+                                ref={inputRef}
+                                disabled={loading}
+                                type="text"
+                                placeholder="Ask about Rahul..."
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                onKeyDown={(e) => {
+
+                                    if (e.key === "Enter" && !e.shiftKey) {
+
+                                        e.preventDefault();
+
+                                        sendMessage();
+                                        
+
+                                    }
+
+                                }}
+                                className="
                             flex-1
                             min-w-0
                             bg-white/5
@@ -201,31 +329,40 @@ const Chatbot = () => {
                             text-white
                             placeholder:text-gray-400
                             "
-                        />
+                            />
 
-                        <button
-                            onClick={sendMessage}
-                            className="
-                            px-4 md:px-5
-                            rounded-2xl
-                            bg-blue-500
-                            hover:bg-blue-600
-                            transition-all duration-300
-                            text-sm
-                            font-medium
-                            text-white
-                            "
-                        >
-                            Send
-                        </button>
+                            <button
+                                onClick={sendMessage}
+                                disabled={loading}
+                                className="
+                                px-4 md:px-5
+                                rounded-2xl
+                                bg-blue-500
+                                hover:bg-blue-600
+                                disabled:bg-blue-500/50
+                                disabled:cursor-not-allowed
+                                transition-all
+                                duration-300
+                                text-sm
+                                font-medium
+                                text-white
+                                "
+                            >
+                               {loading ? (
+    <span className="animate-pulse">Sending...</span>
+) : (
+    "Send"
+)}
+                            </button>
+
+                        </div>
 
                     </div>
 
-                </div>
-
-            )}
+                )
+            }
         </>
     );
-};
 
+};
 export default Chatbot;

@@ -1,33 +1,28 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Skills from "./Skills";
 
 const experiences = [
     {
-        title: "AI & Machine Learning Intern",
-        company: "Virtual Internship",
-        year: "2025",
+        title: "Web Development Intern",
+        company: "Codec Technologies India • Remote",
+        year: "June 2025 – July 2025",
         description:
-            "Worked on AI-powered applications, machine learning workflows, and intelligent automation systems using modern AI technologies.",
+            "Gained hands-on experience in full-stack web development by building responsive and scalable web applications. Developed dynamic user interfaces using React.js, created RESTful APIs with Node.js and Express.js, and managed MongoDB databases. Collaborated on real-world development tasks while following Git-based workflows and industry-standard software engineering practices.",
+       Skills: [
+            "React.js",
+            "Node.js",
+            "Express.js",
+            "MongoDB",
+            "REST APIs",
+            "Git",
+        ],
     },
 
-    {
-        title: "Full Stack Development Intern",
-        company: "Personal & Freelance Projects",
-        year: "2024 - 2025",
-        description:
-            "Built responsive web applications using Next.js, React, TypeScript, and backend APIs with modern UI/UX principles.",
-    },
-
-    {
-        title: "B.Tech Computer Science",
-        company: "Computer Science Engineering",
-        year: "2022 - 2026",
-        description:
-            "Focused on Artificial Intelligence, Machine Learning, Web Development, and software engineering fundamentals.",
-    },
+    
+    
 ];
-
 const Experience = () => {
     return (
         <section id="experience">

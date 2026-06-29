@@ -38,14 +38,17 @@ const Hero = () => {
 
                         <TypeAnimation
                             sequence={[
+                                "B.Tech CSE @ COER'27",
+                                2000,
                                 "AI Engineer",
+                                2000,
+                                "Full Stack Developer",
                                 2000,
                                 "LLM Developer",
                                 2000,
-                                "MERN Stack Developer",
+                                "AI Automation Builder",
                                 2000,
-                                "AI Agent Builder",
-                                2000,
+                                
                             ]}
                             wrapper="span"
                             speed={40}
@@ -54,7 +57,7 @@ const Hero = () => {
 
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
+                    <h1 className="text-2xl md:text-5xl font-bold leading-tight mb-5">
 
                         Hi, I'm{" "}
 
@@ -64,7 +67,7 @@ const Hero = () => {
 
                     </h1>
 
-                    <p className="text-gray-400 text-lg leading-relaxed max-w-xl mb-8">
+                    <p className="text-gray-400 text-lg leading-relaxed text-justify mb-6">
 
                         I build AI-powered applications,
                         LLM systems, intelligent automation tools,
@@ -111,22 +114,7 @@ const Hero = () => {
 
                     </div>
 
-                    {/* Social Icons */}
-                    <div className="flex gap-5 mt-10 text-gray-300">
 
-                        <div className="p-3 rounded-full glass hover:scale-110 hover:text-white transition-all duration-300 cursor-pointer">
-                            <Circle />
-                        </div>
-
-                        <div className="p-3 rounded-full glass hover:scale-110 hover:text-white transition-all duration-300 cursor-pointer">
-                            <Star />
-                        </div>
-
-                        <div className="p-3 rounded-full glass hover:scale-110 hover:text-white transition-all duration-300 cursor-pointer">
-                            <Mail />
-                        </div>
-
-                    </div>
 
                 </motion.div>
 

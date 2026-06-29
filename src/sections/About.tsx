@@ -14,8 +14,8 @@ const About = () => {
                 <Reveal>
 
                     {/* Heading */}
-                    <h2 className="text-4xl md:text-5xl font-bold mb-10 gradient-text">
-                        About Me
+                    <h2 className="text-4xl md:text-5xl font-bold mb-12 gradient-text">
+                        About Rahul
                     </h2>
 
                     {/* Content Card */}
@@ -28,22 +28,16 @@ const About = () => {
                         "
                     >
 
-                        <p className="text-gray-300 text-lg leading-relaxed">
+                        <div className="text-gray-300 text-lg leading-relaxed text-justify">
+                            <p>
+                                I am Rahul Kumar, a B.Tech Computer Science and Engineering student at COER University, graduating in 2027. I specialize in AI Engineering and Full Stack Development, with a strong focus on Large Language Models (LLMs), intelligent automation, and modern web technologies.
+                            </p>
 
-                            I'm Rahul Kumar, an AI Engineer and MERN Stack Developer
-                            passionate about building intelligent systems,
-                            scalable web applications, and modern AI-powered products.
+                            <p>
+                                My technical expertise includes Next.js, React, Node.js, MongoDB, Python, LangChain, Groq API, and AI-powered application development. I enjoy building scalable web platforms, AI chatbots, retrieval-augmented generation (RAG) systems, and intelligent solutions that solve real-world problems. My goal is to become an AI Engineer specializing in LLMs, AI Agents, and intelligent automation while creating impactful products that combine artificial intelligence with exceptional user experiences.
+                            </p>
 
-                            <br />
-                            <br />
-
-                            I have experience in AI applications, LLM integrations,
-                            automation systems, Next.js, TypeScript, Python,
-                            APIs, and Machine Learning to create impactful
-                            digital experiences with modern UI/UX.
-
-                        </p>
-
+                        </div>
                     </div>
 
                 </Reveal>
